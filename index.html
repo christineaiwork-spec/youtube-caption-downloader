@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Caption Drop — YouTube 字幕下載器</title>
+  <style>
+    :root{--bg:#080a0f;--card:#131720;--line:#292f3b;--text:#f5f7fb;--muted:#969dac;--red:#ff3349;--ok:#3dd699}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% -10%,#31131e,transparent 35%),radial-gradient(circle at 95% 0,#17203b,transparent 34%),var(--bg);color:var(--text);font-family:Inter,"Noto Sans TC",system-ui,sans-serif}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(#fff1 1px,transparent 1px),linear-gradient(90deg,#fff1 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(#000,transparent)}
+    .wrap{width:min(940px,calc(100% - 28px));margin:auto;padding:26px 0 55px;position:relative}.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:72px}.brand{display:flex;align-items:center;gap:11px;font-weight:850}.mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(145deg,#ff5264,#d91e34);display:grid;place-items:center;box-shadow:0 8px 24px #ff304740}.play{width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid white;margin-left:2px}.health{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#666}.dot.ok{background:var(--ok);box-shadow:0 0 12px #3dd69999}.dot.bad{background:var(--red)}
+    main{text-align:center}.eyebrow{color:#ff7180;font-size:12px;font-weight:850;letter-spacing:.18em}.hero{font-size:clamp(43px,7vw,75px);line-height:1.02;letter-spacing:-.065em;margin:16px 0 18px}.hero span{color:#949baa}.lead{margin:0 auto 34px;color:var(--muted);font-size:17px;line-height:1.7}.card{max-width:790px;margin:auto;text-align:left;padding:22px;border:1px solid #ffffff14;border-radius:24px;background:linear-gradient(145deg,#171b24ed,#0e1118ed);box-shadow:0 30px 80px #0009}.label{display:block;margin:2px 0 9px 3px;font-size:12px;font-weight:800;letter-spacing:.06em;color:#c5cad4}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.input{width:100%;height:56px;padding:0 17px;border:1px solid var(--line);border-radius:14px;outline:0;background:#090b10;color:var(--text);font:inherit}.input:focus{border-color:#ff5869;box-shadow:0 0 0 4px #ff3b4e18}.btn{height:56px;padding:0 24px;border:0;border-radius:14px;background:linear-gradient(#ff4055,#df1d34);color:white;font-size:15px;font-weight:850;cursor:pointer}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:wait;transform:none}.status{display:none;margin-top:15px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#0b0d12;color:#cbd0d9;font-size:13px;line-height:1.55}.status.show{display:flex;gap:10px}.status.error{border-color:#8b2936;background:#2b1016;color:#ffc0c6}.status.ok{border-color:#21674e;background:#0d241b;color:#b0f0d7}.spin{width:15px;height:15px;flex:0 0 auto;border:2px solid #fff4;border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .results{display:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.results.show{display:block}.video{display:flex;gap:13px;align-items:center;margin-bottom:17px}.thumb{width:104px;aspect-ratio:16/9;object-fit:cover;border-radius:9px;background:#222}.title{font-weight:800}.sub{color:var(--muted);font-size:12px;margin-top:5px}.tools{display:grid;grid-template-columns:1fr 160px auto;gap:10px}.select{appearance:none}.download{background:#f3f4f7;color:#101219}.features{max-width:790px;margin:22px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:13px;text-align:left}.feature{padding:16px;border:1px solid #ffffff0d;border-radius:16px;background:#ffffff04}.feature b{font-size:13px}.feature p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.55}.num{display:block;color:#ff7180;font-size:11px;font-weight:850;margin-bottom:7px}.foot{color:#656c79;font-size:11px;margin-top:26px}
+    @media(max-width:650px){.nav{margin-bottom:48px}.health span:last-child{display:none}.hero{font-size:44px}.lead{font-size:15px}.card{padding:15px}.row,.tools,.features{grid-template-columns:1fr}.btn{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav"><div class="brand"><span class="mark"><i class="play"></i></span>Caption Drop</div><div class="health"><i class="dot" id="healthDot"></i><span id="healthText">檢查服務中</span></div></nav>
+    <main>
+      <div class="eyebrow">YOUTUBE CC DOWNLOADER</div>
+      <h1 class="hero">把影片留下，<br><span>把字幕帶走。</span></h1>
+      <p class="lead">貼上 YouTube 網址，選擇字幕語言與格式。只處理影片公開提供的 CC 字幕。</p>
+      <section class="card">
+        <label class="label" for="url">YOUTUBE 影片網址</label>
+        <div class="row"><input class="input" id="url" placeholder="https://www.youtube.com/watch?v=…" autocomplete="off"><button class="btn" id="find">尋找字幕</button></div>
+        <div class="status" id="status"></div>
+        <div class="results" id="results">
+          <div class="video"><img class="thumb" id="thumb" alt="影片縮圖"><div><div class="title" id="title"></div><div class="sub" id="count"></div></div></div>
+          <div class="tools"><select class="input select" id="language"></select><select class="input select" id="format"><option value="srt">SRT 字幕</option><option value="vtt">WebVTT</option><option value="txt">純文字 TXT</option><option value="xml">原始 XML</option></select><button class="btn download" id="download">下載字幕</button></div>
+        </div>
+      </section>
+      <div class="features"><div class="feature"><span class="num">01</span><b>貼上網址</b><p>支援一般影片、Shorts、youtu.be 與影片 ID。</p></div><div class="feature"><span class="num">02</span><b>選擇字幕</b><p>支援作者 CC 與 YouTube 自動產生字幕。</p></div><div class="feature"><span class="num">03</span><b>本機存檔</b><p>在瀏覽器轉換，不會儲存或上傳字幕內容。</p></div></div>
+      <p class="foot">請只下載你有權使用的字幕內容</p>
+    </main>
+  </div>
+  <script>
+    const WORKER_BASE_URL = 'https://youtube-caption-api.christine-caption-tools.workers.dev';
+    const $ = selector => document.querySelector(selector);
+    const state = { videoId: '', tracks: [] };
+    const messages = {
+      INVALID_VIDEO_ID:'YouTube 影片網址格式不正確。', NO_CAPTIONS:'此影片沒有公開 CC 字幕。',
+      VIDEO_UNAVAILABLE:'影片不存在、私人或受地區限制。', YOUTUBE_UNAVAILABLE:'YouTube 暫時拒絕請求，請稍後再試。',
+      INVALID_TRACK:'字幕軌選擇無效。', CAPTION_UNAVAILABLE:'YouTube 暫時無法提供字幕。',
+      EMPTY_CAPTIONS:'字幕內容是空的。', INTERNAL_ERROR:'服務暫時發生錯誤。'
+    };
+    function videoId(input){try{const u=new URL(input.trim());if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];if(u.pathname.startsWith('/shorts/'))return u.pathname.split('/')[2];if(u.pathname.startsWith('/embed/'))return u.pathname.split('/')[2];return u.searchParams.get('v')}catch{return /^[\w-]{11}$/.test(input.trim())?input.trim():null}}
+    function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    function show(message,type='load'){const el=$('#status');el.className='status show '+type;el.innerHTML=(type==='load'?'<i class="spin"></i>':'')+'<span>'+esc(message)+'</span>'}
+    async function api(path,raw=false){if(!WORKER_BASE_URL)throw Object.assign(new Error('後端尚未設定，請先部署 Cloudflare Worker。'),{code:'WORKER_NOT_CONFIGURED'});let response;try{response=await fetch(WORKER_BASE_URL+path)}catch{throw Object.assign(new Error('無法連線到字幕服務。'),{code:'WORKER_OFFLINE'})}if(raw){if(!response.ok){const body=await response.json().catch(()=>({}));throw Object.assign(new Error(body.message||'字幕下載失敗'),body)}return response.text()}const body=await response.json().catch(()=>({}));if(!response.ok||!body.ok)throw Object.assign(new Error(body.message||'服務回應格式錯誤'),body);return body.data}
+    async function checkHealth(){if(!WORKER_BASE_URL){$('#healthDot').className='dot bad';$('#healthText').textContent='後端尚未設定';return}try{await api('/health');$('#healthDot').className='dot ok';$('#healthText').textContent='服務正常'}catch{$('#healthDot').className='dot bad';$('#healthText').textContent='服務離線'}}
+    async function findTracks(){const id=videoId($('#url').value);if(!id){show('這看起來不是有效的 YouTube 影片網址。','error');return}$('#find').disabled=true;$('#results').classList.remove('show');show('正在尋找公開字幕…');try{const data=await api('/api/tracks?videoId='+encodeURIComponent(id));state.videoId=id;state.tracks=data.tracks;$('#title').textContent=data.title;$('#count').textContent='找到 '+data.tracks.length+' 組字幕';$('#thumb').src='https://i.ytimg.com/vi/'+id+'/mqdefault.jpg';$('#language').innerHTML=data.tracks.map(t=>`<option value="${t.index}">${esc(t.label)} · ${esc(t.languageCode)}${t.isAuto?'（自動產生）':''}</option>`).join('');$('#results').classList.add('show');show('字幕已準備好，請選擇語言與格式。','ok')}catch(error){show(messages[error.code]||error.message||'查詢失敗。','error')}finally{$('#find').disabled=false}}
+    const pad=(n,w=2)=>String(n).padStart(w,'0');function stamp(seconds,comma){const ms=Math.max(0,Math.round(seconds*1000)),h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),s=Math.floor(ms%60000/1000);return `${pad(h)}:${pad(m)}:${pad(s)}${comma?',':'.'}${pad(ms%1000,3)}`}
+    function xmlEscape(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]))}
+    function convert(items,format){if(format==='xml')return '<transcript>\n'+items.map(x=>`  <text start="${x.start}" dur="${x.duration}">${xmlEscape(x.text)}</text>`).join('\n')+'\n</transcript>';if(format==='txt')return items.map(x=>x.text).join('\n');if(format==='vtt')return 'WEBVTT\n\n'+items.map(x=>`${stamp(x.start,false)} --> ${stamp(x.start+x.duration,false)}\n${x.text}`).join('\n\n');return items.map((x,i)=>`${i+1}\n${stamp(x.start,true)} --> ${stamp(x.start+x.duration,true)}\n${x.text}`).join('\n\n')}
+    async function download(){const format=$('#format').value,track=state.tracks[+$('#language').value];$('#download').disabled=true;show('正在取得並轉換字幕…');try{const data=await api(`/api/captions?videoId=${encodeURIComponent(state.videoId)}&lang=${encodeURIComponent(track.languageCode)}`),items=data.items;if(!items.length)throw new Error('字幕內容是空的。');const blob=new Blob([convert(items,format)],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`youtube-${state.videoId}-${track.languageCode||'caption'}.${format}`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);show('下載完成。','ok')}catch(error){show(messages[error.code]||error.message||'下載失敗。','error')}finally{$('#download').disabled=false}}
+    $('#find').addEventListener('click',findTracks);$('#download').addEventListener('click',download);$('#url').addEventListener('keydown',e=>{if(e.key==='Enter')findTracks()});checkHealth();
+  </script>
+</body>
+</html>
